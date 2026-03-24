@@ -69,7 +69,7 @@ COPY --from=builder "${WS_PATH}/install" "${WS_PATH}/install"
 # Copy Hokuyo configuration
 COPY --chmod=0644 config/ "${WS_PATH}/install/urg_node2/share/urg_node2/config"
 
-COPY --chmod=0755 entrypoint.sh /entrypoint.sh
+COPY --chmod=0755 script/entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["ros2", "launch", "urg_node2", "urg_node2.launch.py"]

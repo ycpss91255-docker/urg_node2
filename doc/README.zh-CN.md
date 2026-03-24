@@ -1,6 +1,6 @@
 # Hokuyo URG Node2 Docker Environment
 
-**[English](README.md)** | **[繁體中文](README.zh-TW.md)** | **[简体中文](README.zh-CN.md)** | **[日本語](README.ja.md)**
+**[English](../README.md)** | **[繁體中文](README.zh-TW.md)** | **[简体中文](README.zh-CN.md)** | **[日本語](README.ja.md)**
 
 > **TL;DR** — 容器化的 Hokuyo LiDAR 驱动程序，基于 ROS 2 Humble。从 source 编译 `urg_node2`，内含 Ethernet 和 Serial 连接的默认参数文件。
 >
