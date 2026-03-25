@@ -1,4 +1,4 @@
-# Hokuyo URG Node2 Docker Environment
+# Hokuyo URG Node Humble Docker Environment
 
 **[English](../README.md)** | **[繁體中文](README.zh-TW.md)** | **[简体中文](README.zh-CN.md)** | **[日本語](README.ja.md)**
 
@@ -190,7 +190,7 @@ graph TD
 ## 目录结构
 
 ```text
-urg_node2/
+urg_node_humble/
 ├── compose.yaml                 # Docker Compose 定义
 ├── Dockerfile                   # 多阶段构建（builder + runtime + test）
 ├── build.sh                     # 构建脚本

@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: runtime
-    image: ${DOCKER_HUB_USER:-local}/urg_node2:latest
-    container_name: urg_node2
+    image: ${DOCKER_HUB_USER:-local}/urg_node_humble:latest
+    container_name: urg_node_humble
     privileged: true
     network_mode: host
     ipc: host
@@ -21,6 +21,6 @@ services:
       context: .
       dockerfile: Dockerfile
       target: test
-    image: ${DOCKER_HUB_USER:-local}/urg_node2:test
+    image: ${DOCKER_HUB_USER:-local}/urg_node_humble:test
     profiles:
       - test

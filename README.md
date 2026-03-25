@@ -1,4 +1,4 @@
-# Hokuyo URG Node2 Docker Environment
+# Hokuyo URG Node Humble Docker Environment
 
 **[English](README.md)** | **[繁體中文](doc/README.zh-TW.md)** | **[简体中文](doc/README.zh-CN.md)** | **[日本語](doc/README.ja.md)**
 
@@ -190,7 +190,7 @@ Located in `test/smoke_test/` — **21 tests** total.
 ## Directory Structure
 
 ```text
-urg_node2/
+urg_node_humble/
 ├── compose.yaml                 # Docker Compose definition
 ├── Dockerfile                   # Multi-stage build (builder + runtime + test)
 ├── build.sh                     # Build script

@@ -13,7 +13,7 @@ jobs:
       - name: Create release archive
         run: |
           VERSION="${GITHUB_REF_NAME}"
-          ARCHIVE_NAME="urg_node2-${VERSION}"
+          ARCHIVE_NAME="urg_node_humble-${VERSION}"
 
           mkdir -p "${ARCHIVE_NAME}"
           cp -r Dockerfile compose.yaml \
@@ -30,5 +30,5 @@ jobs:
           generate_release_notes: true
           prerelease: ${{ contains(github.ref_name, '-') }}
           files: |
-            urg_node2-*.tar.gz
-            urg_node2-*.zip
+            urg_node_humble-*.tar.gz
+            urg_node_humble-*.zip
