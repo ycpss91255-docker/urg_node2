@@ -108,7 +108,7 @@ graph TD
     EXT4 --> runtime["runtime\nlaser-proc + builder 的 install"]:::stage
     builder -.->|COPY install/| runtime
 
-    bats-src --> test["test  ⚡ ephemeral\nsmoke_test/ 执行后即丢"]:::ephemeral
+    bats-src --> test["test临时性\nsmoke_test/ 执行后即丢"]:::ephemeral
     bats-ext --> test
     runtime --> test
 
