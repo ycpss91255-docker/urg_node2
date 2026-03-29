@@ -130,62 +130,7 @@ graph TD
 
 ## Smoke Tests
 
-```bash
-./build.sh test
-```
-
-位於 `test/smoke/`，共 **21** 項。
-
-<details>
-<summary>展開查看測試細項</summary>
-
-#### ROS 環境 (3)
-
-| 測試項目 | 說明 |
-|----------|------|
-| `ROS_DISTRO` | 已設定 |
-| `setup.bash` | 檔案存在 |
-| `setup.bash` | 可 source |
-
-#### urg_node2 套件 (4)
-
-| 測試項目 | 說明 |
-|----------|------|
-| workspace install | 目錄存在 |
-| `local_setup.sh` | 檔案存在 |
-| `urg_node2` | 透過 `ros2 pkg list` 可找到 |
-| 設定檔 | install 目錄中存在 |
-
-#### 依賴 (1)
-
-| 測試項目 | 說明 |
-|----------|------|
-| `laser_proc` | package 可用 |
-
-#### 系統 (1)
-
-| 測試項目 | 說明 |
-|----------|------|
-| `entrypoint.sh` | 存在且可執行 |
-
-#### 腳本 help (12)
-
-| 測試項目 | 說明 |
-|----------|------|
-| `build.sh -h` | 結束碼 0 |
-| `build.sh --help` | 結束碼 0 |
-| `build.sh -h` | 顯示 usage |
-| `run.sh -h` | 結束碼 0 |
-| `run.sh --help` | 結束碼 0 |
-| `run.sh -h` | 顯示 usage |
-| `exec.sh -h` | 結束碼 0 |
-| `exec.sh --help` | 結束碼 0 |
-| `exec.sh -h` | 顯示 usage |
-| `stop.sh -h` | 結束碼 0 |
-| `stop.sh --help` | 結束碼 0 |
-| `stop.sh -h` | 顯示 usage |
-
-</details>
+詳見 [TEST.md](test/TEST.md)。
 
 ## 目錄結構
 

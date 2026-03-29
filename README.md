@@ -130,62 +130,7 @@ graph TD
 
 ## Smoke Tests
 
-```bash
-./build.sh test
-```
-
-Located in `test/smoke/` — **21 tests** total.
-
-<details>
-<summary>Click to expand test details</summary>
-
-#### ROS environment (3)
-
-| Test | Description |
-|------|-------------|
-| `ROS_DISTRO` | Is set |
-| `setup.bash` | File exists |
-| `setup.bash` | Can be sourced |
-
-#### urg_node2 package (4)
-
-| Test | Description |
-|------|-------------|
-| Workspace install | Directory exists |
-| `local_setup.sh` | File exists |
-| `urg_node2` | Package available via `ros2 pkg list` |
-| Config files | Exist in install directory |
-
-#### Dependencies (1)
-
-| Test | Description |
-|------|-------------|
-| `laser_proc` | Package available |
-
-#### System (1)
-
-| Test | Description |
-|------|-------------|
-| `entrypoint.sh` | Exists and executable |
-
-#### Script help (12)
-
-| Test | Description |
-|------|-------------|
-| `build.sh -h` | Exits 0 |
-| `build.sh --help` | Exits 0 |
-| `build.sh -h` | Prints usage |
-| `run.sh -h` | Exits 0 |
-| `run.sh --help` | Exits 0 |
-| `run.sh -h` | Prints usage |
-| `exec.sh -h` | Exits 0 |
-| `exec.sh --help` | Exits 0 |
-| `exec.sh -h` | Prints usage |
-| `stop.sh -h` | Exits 0 |
-| `stop.sh --help` | Exits 0 |
-| `stop.sh -h` | Prints usage |
-
-</details>
+See [TEST.md](doc/test/TEST.md) for details.
 
 ## Directory Structure
 

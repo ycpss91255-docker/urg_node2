@@ -1,6 +1,6 @@
 # TEST.md
 
-**21 tests** total.
+**25 tests** total.
 
 ## test/smoke/ros_env.bats
 

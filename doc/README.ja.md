@@ -130,62 +130,7 @@ graph TD
 
 ## Smoke Tests
 
-```bash
-./build.sh test
-```
-
-`test/smoke/` — **21 テスト**。
-
-<details>
-<summary>クリックしてテスト詳細を表示</summary>
-
-#### ROS 環境 (3)
-
-| テスト項目 | 説明 |
-|-----------|------|
-| `ROS_DISTRO` | 設定済み |
-| `setup.bash` | ファイルが存在する |
-| `setup.bash` | source 可能 |
-
-#### urg_node2 パッケージ (4)
-
-| テスト項目 | 説明 |
-|-----------|------|
-| workspace install | ディレクトリが存在する |
-| `local_setup.sh` | ファイルが存在する |
-| `urg_node2` | `ros2 pkg list` で検出可能 |
-| 設定ファイル | install ディレクトリ内に存在する |
-
-#### 依存関係 (1)
-
-| テスト項目 | 説明 |
-|-----------|------|
-| `laser_proc` | パッケージが利用可能 |
-
-#### システム (1)
-
-| テスト項目 | 説明 |
-|-----------|------|
-| `entrypoint.sh` | 存在し実行可能 |
-
-#### スクリプト help (12)
-
-| テスト項目 | 説明 |
-|-----------|------|
-| `build.sh -h` | 終了コード 0 |
-| `build.sh --help` | 終了コード 0 |
-| `build.sh -h` | usage を表示 |
-| `run.sh -h` | 終了コード 0 |
-| `run.sh --help` | 終了コード 0 |
-| `run.sh -h` | usage を表示 |
-| `exec.sh -h` | 終了コード 0 |
-| `exec.sh --help` | 終了コード 0 |
-| `exec.sh -h` | usage を表示 |
-| `stop.sh -h` | 終了コード 0 |
-| `stop.sh --help` | 終了コード 0 |
-| `stop.sh -h` | usage を表示 |
-
-</details>
+詳細は [TEST.md](test/TEST.md) を参照。
 
 ## ディレクトリ構成
 
