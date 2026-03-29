@@ -24,7 +24,7 @@
 ## 特性
 
 - **从 source 编译**：clone 并编译 [urg_node2](https://github.com/Hokuyo-aut/urg_node2)
-- **多阶段构建**：builder（编译）→ runtime（最小化），镜像体积小
+- **多阶段构建**：builder（编译）→ devel（最小化），镜像体积小
 - **Smoke Test**：Bats 测试验证 ROS 环境、package 可用性及设置文件
 - **默认设置**：内含 Hokuyo LiDAR 的 Ethernet 和 Serial 参数文件
 - **Docker Compose**：一个 `compose.yaml` 管理构建与执行
@@ -47,10 +47,10 @@
 ### 构建
 
 ```bash
-./build.sh                       # 构建 runtime（默认）
+./build.sh                       # 构建 devel（默认）
 ./build.sh test                  # 构建含 smoke test
 
-docker compose build runtime     # 等效命令
+docker compose build devel       # 等效命令
 ```
 
 ### 执行
@@ -60,7 +60,7 @@ docker compose build runtime     # 等效命令
 ./run.sh
 
 # 自定义命令
-docker compose run --rm runtime ros2 launch urg_node2 urg_node2.launch.py
+docker compose run --rm devel ros2 launch urg_node2 urg_node2.launch.py
 
 # 进入已启动的容器
 ./exec.sh
@@ -105,12 +105,12 @@ graph TD
 
     EXT3 --> builder["builder\ngit clone urg_node2 + colcon build"]:::stage
 
-    EXT4 --> runtime["runtime\nlaser-proc + builder 的 install"]:::stage
-    builder -.->|COPY install/| runtime
+    EXT4 --> devel["devel\nlaser-proc + builder 的 install"]:::stage
+    builder -.->|COPY install/| devel
 
-    bats-src --> test["test临时性\nsmoke_test/ 执行后即丢"]:::ephemeral
+    bats-src --> test["test临时性\nsmoke/ 执行后即丢"]:::ephemeral
     bats-ext --> test
-    runtime --> test
+    devel --> test
 
     classDef external fill:#555,color:#fff,stroke:#999
     classDef tool fill:#8B6914,color:#fff,stroke:#c8960c
@@ -125,8 +125,8 @@ graph TD
 | `bats-src` | `bats/bats:latest` | bats 二进制来源，不出货 |
 | `bats-extensions` | `alpine:latest` | bats-support、bats-assert，不出货 |
 | `builder` | `ros:humble-ros-base-jammy` | Clone + 编译 urg_node2 |
-| `runtime` | `ros:humble-ros-core-jammy` | 最小化 runtime，含编译好的 package + laser-proc |
-| `test` | `runtime` | Smoke test，build 完即丢 |
+| `devel` | `ros:humble-ros-core-jammy` | 最小化 runtime，含编译好的 package + laser-proc |
+| `test` | `devel` | Smoke test，build 完即丢 |
 
 ## Smoke Tests
 
@@ -134,7 +134,7 @@ graph TD
 ./build.sh test
 ```
 
-位于 `test/smoke_test/`，共 **21** 项。
+位于 `test/smoke/`，共 **21** 项。
 
 <details>
 <summary>展开查看测试详情</summary>
@@ -192,27 +192,27 @@ graph TD
 ```text
 urg_node_humble/
 ├── compose.yaml                 # Docker Compose 定义
-├── Dockerfile                   # 多阶段构建（builder + runtime + test）
-├── build.sh                     # 构建脚本
-├── run.sh                       # 执行脚本
-├── exec.sh                      # 进入已启动的容器
-├── stop.sh                      # 停止容器
+├── Dockerfile                   # 多阶段构建（builder + devel + test）
+├── build.sh -> template/build.sh    # Symlink
+├── run.sh -> template/run.sh        # Symlink
+├── exec.sh -> template/exec.sh      # Symlink
+├── stop.sh -> template/stop.sh      # Symlink
+├── Makefile -> template/Makefile    # Symlink
+├── .template_version            # Template subtree 版本（v0.4.1）
+├── .hadolint.yaml               # 自定义 Hadolint 规则
 ├── script/
 │   └── entrypoint.sh            # Source ROS 2 + workspace
 ├── config/                      # Hokuyo 参数文件
 │   ├── params_ether.yaml        # Ethernet 连接
 │   ├── params_ether_2nd.yaml    # 第二颗 LiDAR（Ethernet）
 │   └── params_serial.yaml       # Serial 连接
+├── template/                    # 共用模板（git subtree）
 ├── doc/                         # 翻译版 README
 │   ├── README.zh-TW.md          # 繁体中文
 │   ├── README.zh-CN.md          # 简体中文
 │   └── README.ja.md             # 日文
-├── .github/workflows/           # CI/CD
-│   ├── main.yaml
-│   ├── build-worker.yaml
-│   └── release-worker.yaml
-└── test/smoke_test/             # Bats 环境测试
-    ├── ros_env.bats
-    ├── script_help.bats
-    └── test_helper.bash
+├── .github/workflows/
+│   └── main.yaml                # CI/CD（调用 template reusable workflows）
+└── test/smoke/                  # Bats 环境测试（repo 专属）
+    └── ros_env.bats
 ```

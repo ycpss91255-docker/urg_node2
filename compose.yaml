@@ -1,11 +1,11 @@
 services:
-  # ── Runtime ────────────────────────────────────────────────
-  runtime:
+  # ── Devel ────────────────────────────────────────────────
+  devel:
     build:
       context: .
       dockerfile: Dockerfile
-      target: runtime
-    image: ${DOCKER_HUB_USER:-local}/urg_node_humble:latest
+      target: devel
+    image: ${DOCKER_HUB_USER:-local}/urg_node_humble:devel
     container_name: urg_node_humble
     privileged: true
     network_mode: host

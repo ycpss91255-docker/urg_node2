@@ -24,7 +24,7 @@
 ## 特徴
 
 - **ソースからビルド**：[urg_node2](https://github.com/Hokuyo-aut/urg_node2) をクローンしてビルド
-- **マルチステージビルド**：builder（コンパイル）→ runtime（最小化）、イメージサイズを削減
+- **マルチステージビルド**：builder（コンパイル）→ devel（最小化）、イメージサイズを削減
 - **Smoke Test**：Bats テストで ROS 環境、パッケージの可用性、設定ファイルを検証
 - **デフォルト設定**：Hokuyo LiDAR の Ethernet・Serial パラメータファイルを同梱
 - **Docker Compose**：`compose.yaml` 一つでビルドと実行を管理
@@ -47,10 +47,10 @@
 ### ビルド
 
 ```bash
-./build.sh                       # runtime をビルド（デフォルト）
+./build.sh                       # devel をビルド（デフォルト）
 ./build.sh test                  # smoke test 付きビルド
 
-docker compose build runtime     # 同等のコマンド
+docker compose build devel       # 同等のコマンド
 ```
 
 ### 実行
@@ -60,7 +60,7 @@ docker compose build runtime     # 同等のコマンド
 ./run.sh
 
 # カスタムコマンド
-docker compose run --rm runtime ros2 launch urg_node2 urg_node2.launch.py
+docker compose run --rm devel ros2 launch urg_node2 urg_node2.launch.py
 
 # 起動中のコンテナに接続
 ./exec.sh
@@ -105,12 +105,12 @@ graph TD
 
     EXT3 --> builder["builder\ngit clone urg_node2 + colcon build"]:::stage
 
-    EXT4 --> runtime["runtime\nlaser-proc + builder の install"]:::stage
-    builder -.->|COPY install/| runtime
+    EXT4 --> devel["devel\nlaser-proc + builder の install"]:::stage
+    builder -.->|COPY install/| devel
 
-    bats-src --> test["test一時的\nsmoke_test/ ビルド後に破棄"]:::ephemeral
+    bats-src --> test["test一時的\nsmoke/ ビルド後に破棄"]:::ephemeral
     bats-ext --> test
-    runtime --> test
+    devel --> test
 
     classDef external fill:#555,color:#fff,stroke:#999
     classDef tool fill:#8B6914,color:#fff,stroke:#c8960c
@@ -125,8 +125,8 @@ graph TD
 | `bats-src` | `bats/bats:latest` | bats バイナリソース、出荷しない |
 | `bats-extensions` | `alpine:latest` | bats-support、bats-assert、出荷しない |
 | `builder` | `ros:humble-ros-base-jammy` | urg_node2 をクローン + ビルド |
-| `runtime` | `ros:humble-ros-core-jammy` | 最小化 runtime、ビルド済みパッケージ + laser-proc |
-| `test` | `runtime` | Smoke test、ビルド後に破棄 |
+| `devel` | `ros:humble-ros-core-jammy` | 最小化 runtime、ビルド済みパッケージ + laser-proc |
+| `test` | `devel` | Smoke test、ビルド後に破棄 |
 
 ## Smoke Tests
 
@@ -134,7 +134,7 @@ graph TD
 ./build.sh test
 ```
 
-`test/smoke_test/` — **21 テスト**。
+`test/smoke/` — **21 テスト**。
 
 <details>
 <summary>クリックしてテスト詳細を表示</summary>
@@ -192,27 +192,27 @@ graph TD
 ```text
 urg_node_humble/
 ├── compose.yaml                 # Docker Compose 定義
-├── Dockerfile                   # マルチステージビルド（builder + runtime + test）
-├── build.sh                     # ビルドスクリプト
-├── run.sh                       # 実行スクリプト
-├── exec.sh                      # 起動中のコンテナに接続
-├── stop.sh                      # コンテナを停止
+├── Dockerfile                   # マルチステージビルド（builder + devel + test）
+├── build.sh -> template/build.sh    # Symlink
+├── run.sh -> template/run.sh        # Symlink
+├── exec.sh -> template/exec.sh      # Symlink
+├── stop.sh -> template/stop.sh      # Symlink
+├── Makefile -> template/Makefile    # Symlink
+├── .template_version            # Template subtree バージョン（v0.4.1）
+├── .hadolint.yaml               # カスタム Hadolint ルール
 ├── script/
 │   └── entrypoint.sh            # ROS 2 + workspace を source
 ├── config/                      # Hokuyo パラメータファイル
 │   ├── params_ether.yaml        # Ethernet 接続
 │   ├── params_ether_2nd.yaml    # 2台目の LiDAR（Ethernet）
 │   └── params_serial.yaml       # Serial 接続
+├── template/                    # 共用テンプレート（git subtree）
 ├── doc/                         # 翻訳版 README
 │   ├── README.zh-TW.md          # 繁体字中国語
 │   ├── README.zh-CN.md          # 簡体字中国語
 │   └── README.ja.md             # 日本語
-├── .github/workflows/           # CI/CD
-│   ├── main.yaml
-│   ├── build-worker.yaml
-│   └── release-worker.yaml
-└── test/smoke_test/             # Bats 環境テスト
-    ├── ros_env.bats
-    ├── script_help.bats
-    └── test_helper.bash
+├── .github/workflows/
+│   └── main.yaml                # CI/CD（template reusable workflows を呼び出し）
+└── test/smoke/                  # Bats 環境テスト（repo 固有）
+    └── ros_env.bats
 ```

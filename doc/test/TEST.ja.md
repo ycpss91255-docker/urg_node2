@@ -2,7 +2,7 @@
 
 **21 件のテスト**。
 
-## test/smoke_test/ros_env.bats
+## test/smoke/ros_env.bats
 
 ### ROS environment (3)
 
@@ -33,7 +33,7 @@
 |------------|------|
 | `laser_proc package is available` | `ros2 pkg list` includes laser_proc |
 
-## test/smoke_test/script_help.bats
+## test/smoke/script_help.bats
 
 ### build.sh (3)
 

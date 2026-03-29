@@ -24,7 +24,7 @@
 ## Features
 
 - **Source build**: clones and builds [urg_node2](https://github.com/Hokuyo-aut/urg_node2) from source
-- **Multi-stage build**: builder (compile) → runtime (minimal), keeps image small
+- **Multi-stage build**: builder (compile) → devel (minimal), keeps image small
 - **Smoke Test**: Bats tests verify ROS environment, package availability, and config files
 - **Pre-configured**: includes Ethernet and serial parameter files for Hokuyo LiDARs
 - **Docker Compose**: single `compose.yaml` for build and run
@@ -47,10 +47,10 @@
 ### Build
 
 ```bash
-./build.sh                       # Build runtime (default)
+./build.sh                       # Build devel (default)
 ./build.sh test                  # Build with smoke tests
 
-docker compose build runtime     # Equivalent
+docker compose build devel       # Equivalent
 ```
 
 ### Run
@@ -60,7 +60,7 @@ docker compose build runtime     # Equivalent
 ./run.sh
 
 # Run with custom command
-docker compose run --rm runtime ros2 launch urg_node2 urg_node2.launch.py
+docker compose run --rm devel ros2 launch urg_node2 urg_node2.launch.py
 
 # Enter running container
 ./exec.sh
@@ -105,12 +105,12 @@ graph TD
 
     EXT3 --> builder["builder\ngit clone urg_node2 + colcon build"]:::stage
 
-    EXT4 --> runtime["runtime\nlaser-proc + install from builder"]:::stage
-    builder -.->|COPY install/| runtime
+    EXT4 --> devel["devel\nlaser-proc + install from builder"]:::stage
+    builder -.->|COPY install/| devel
 
     bats-src --> test["test (ephemeral)\nsmoke tests, discarded after build"]:::ephemeral
     bats-ext --> test
-    runtime --> test
+    devel --> test
 
     classDef external fill:#555,color:#fff,stroke:#999
     classDef tool fill:#8B6914,color:#fff,stroke:#c8960c
@@ -125,8 +125,8 @@ graph TD
 | `bats-src` | `bats/bats:latest` | Bats binary source, not shipped |
 | `bats-extensions` | `alpine:latest` | bats-support, bats-assert, not shipped |
 | `builder` | `ros:humble-ros-base-jammy` | Clone + build urg_node2 from source |
-| `runtime` | `ros:humble-ros-core-jammy` | Minimal runtime with built package + laser-proc |
-| `test` | `runtime` | Smoke tests, discarded after build |
+| `devel` | `ros:humble-ros-core-jammy` | Minimal runtime with built package + laser-proc |
+| `test` | `devel` | Smoke tests, discarded after build |
 
 ## Smoke Tests
 
@@ -134,7 +134,7 @@ graph TD
 ./build.sh test
 ```
 
-Located in `test/smoke_test/` — **21 tests** total.
+Located in `test/smoke/` — **21 tests** total.
 
 <details>
 <summary>Click to expand test details</summary>
@@ -192,27 +192,27 @@ Located in `test/smoke_test/` — **21 tests** total.
 ```text
 urg_node_humble/
 ├── compose.yaml                 # Docker Compose definition
-├── Dockerfile                   # Multi-stage build (builder + runtime + test)
-├── build.sh                     # Build script
-├── run.sh                       # Run script
-├── exec.sh                      # Enter running container
-├── stop.sh                      # Stop running container
+├── Dockerfile                   # Multi-stage build (builder + devel + test)
+├── build.sh -> template/build.sh    # Symlink
+├── run.sh -> template/run.sh        # Symlink
+├── exec.sh -> template/exec.sh      # Symlink
+├── stop.sh -> template/stop.sh      # Symlink
+├── Makefile -> template/Makefile    # Symlink
+├── .template_version            # Template subtree version (v0.4.1)
+├── .hadolint.yaml               # Custom Hadolint rules
 ├── script/
 │   └── entrypoint.sh            # Sources ROS 2 + workspace
 ├── config/                      # Hokuyo parameter files
 │   ├── params_ether.yaml        # Ethernet connection
 │   ├── params_ether_2nd.yaml    # Second LiDAR (Ethernet)
 │   └── params_serial.yaml       # Serial connection
+├── template/                    # Shared template (git subtree)
 ├── doc/                         # Translated READMEs
 │   ├── README.zh-TW.md          # Traditional Chinese
 │   ├── README.zh-CN.md          # Simplified Chinese
 │   └── README.ja.md             # Japanese
-├── .github/workflows/           # CI/CD
-│   ├── main.yaml
-│   ├── build-worker.yaml
-│   └── release-worker.yaml
-└── test/smoke_test/             # Bats environment tests
-    ├── ros_env.bats
-    ├── script_help.bats
-    └── test_helper.bash
+├── .github/workflows/
+│   └── main.yaml                # CI/CD (calls template reusable workflows)
+└── test/smoke/                  # Bats environment tests (repo-specific)
+    └── ros_env.bats
 ```
