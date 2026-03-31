@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: devel
+      args:
+        APT_MIRROR_UBUNTU: ${APT_MIRROR_UBUNTU:-tw.archive.ubuntu.com}
     image: ${DOCKER_HUB_USER:-local}/urg_node_humble:devel
     container_name: urg_node_humble
     privileged: true
@@ -21,6 +23,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: test
+      args:
+        APT_MIRROR_UBUNTU: ${APT_MIRROR_UBUNTU:-tw.archive.ubuntu.com}
     image: ${DOCKER_HUB_USER:-local}/urg_node_humble:test
     profiles:
       - test
