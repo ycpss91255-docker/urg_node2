@@ -26,7 +26,9 @@ RUN apk add --no-cache curl xz && \
 ############################## builder ##############################
 FROM ros:${ROS_DISTRO}-ros-${BUILD_TAG}-jammy AS builder
 
-RUN apt-get update && \
+ARG APT_MIRROR_UBUNTU="tw.archive.ubuntu.com"
+RUN sed -i "s@archive.ubuntu.com@${APT_MIRROR_UBUNTU}@g" /etc/apt/sources.list || true && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
     && \
@@ -52,8 +54,10 @@ RUN /ros_entrypoint.sh colcon build
 FROM ros:${ROS_DISTRO}-ros-${RUNTIME_TAG}-jammy AS devel
 
 ARG ROS_DISTRO
+ARG APT_MIRROR_UBUNTU="tw.archive.ubuntu.com"
 
-RUN apt-get update && \
+RUN sed -i "s@archive.ubuntu.com@${APT_MIRROR_UBUNTU}@g" /etc/apt/sources.list || true && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
         sudo \
         tini \
