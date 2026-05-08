@@ -3,7 +3,7 @@ ARG BUILD_TAG="base"
 ARG RUNTIME_TAG="core"
 ARG WS_PATH="/ros_ws"
 
-############################## test tool sources ##############################
+############################## devel-test tool sources ##############################
 FROM bats/bats:latest AS bats-src
 
 FROM alpine:latest AS bats-extensions
@@ -78,8 +78,8 @@ COPY --chmod=0755 script/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["ros2", "launch", "urg_node2", "urg_node2.launch.py"]
 
-############################## test (ephemeral) ##############################
-FROM devel AS test
+############################## devel-test (ephemeral) ##############################
+FROM devel AS devel-test
 
 # Install lint tools
 COPY --from=lint-tools /usr/local/bin/shellcheck /usr/local/bin/shellcheck
