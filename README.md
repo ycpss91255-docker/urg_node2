@@ -1,25 +1,35 @@
 # Hokuyo URG Node Humble Docker Environment
 
+[![CI](https://github.com/ycpss91255-docker/urg_node_humble/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-docker/urg_node_humble/actions/workflows/main.yaml)
+
 **[English](README.md)** | **[繁體中文](doc/README.zh-TW.md)** | **[简体中文](doc/README.zh-CN.md)** | **[日本語](doc/README.ja.md)**
 
-> **TL;DR** — Containerized Hokuyo LiDAR driver for ROS 2 Humble. Builds `urg_node2` from source, includes pre-configured parameter files for Ethernet and serial connections.
->
-> ```bash
-> ./build.sh && ./run.sh
-> ```
+## TL;DR
+
+Containerized Hokuyo LiDAR driver for ROS 2 Humble. Builds `urg_node2` from source, includes pre-configured parameter files for Ethernet and serial connections.
+
+```bash
+./build.sh && ./run.sh
+```
 
 ---
 
 ## Table of Contents
 
+- [Overview](#overview)
 - [Features](#features)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Architecture](#architecture)
+- [Smoke Tests](#smoke-tests)
 - [Directory Structure](#directory-structure)
 
 ---
+
+## Overview
+
+Provides a reproducible ROS 2 Humble environment for Hokuyo URG-series LiDAR sensors built from the upstream `urg_node2` source tree. The container ships with sample parameter files for both Ethernet and serial connections so a single image can be repointed at different hardware via `./run.sh`. Multi-stage builds keep the runtime image small while preserving the source tree for in-container debugging.
 
 ## Features
 
@@ -134,12 +144,11 @@ See [TEST.md](doc/test/TEST.md) for details.
 urg_node_humble/
 ├── compose.yaml                 # Docker Compose definition
 ├── Dockerfile                   # Multi-stage build (builder + devel + test)
-├── build.sh -> template/build.sh    # Symlink
-├── run.sh -> template/run.sh        # Symlink
-├── exec.sh -> template/exec.sh      # Symlink
-├── stop.sh -> template/stop.sh      # Symlink
-├── Makefile -> template/Makefile    # Symlink
-├── .template_version            # Template subtree version (v0.4.1)
+├── build.sh -> template/script/docker/build.sh    # Symlink
+├── run.sh -> template/script/docker/run.sh        # Symlink
+├── exec.sh -> template/script/docker/exec.sh      # Symlink
+├── stop.sh -> template/script/docker/stop.sh      # Symlink
+├── Makefile -> template/script/docker/Makefile    # Symlink
 ├── .hadolint.yaml               # Custom Hadolint rules
 ├── script/
 │   └── entrypoint.sh            # Sources ROS 2 + workspace

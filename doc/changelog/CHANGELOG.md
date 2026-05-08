@@ -12,6 +12,7 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - rename repo references from urg_node2 to urg_node_humble (#2)
+- Align README.md to template framework: add CI status badge, promote TL;DR blockquote to `## TL;DR` H2, add `## Overview` section, extend Table of Contents, fix Directory Structure wrapper symlink paths to `template/script/docker/<name>` and drop obsolete `.template_version` row. Translations untouched.
 
 ## [v1.4.1] - 2026-03-25
 
