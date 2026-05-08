@@ -7,6 +7,13 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `LICENSE` (Apache 2.0) and CI / License badges in
+  `README.md` + 3 translated READMEs (#37). Fresh add
+  -- repo previously had no LICENSE and no badges. Aligns with
+  the org-wide Apache 2.0 migration tracked across 17 sister
+  repos.
+
 ### Fixed
 - Restore `.env.example` (removed during APT-mirror refactor) so `setup.sh`'s IMAGE_NAME detection has its documented fallback.
 

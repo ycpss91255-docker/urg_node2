@@ -1,5 +1,7 @@
 # Hokuyo URG Node Humble Docker Environment
 
+[![CI](https://github.com/ycpss91255-docker/urg_node_humble/actions/workflows/main.yaml/badge.svg)](https://github.com/ycpss91255-docker/urg_node_humble/actions/workflows/main.yaml) [![License](https://img.shields.io/badge/License-Apache--2.0-blue?style=flat-square)](../LICENSE)
+
 **[English](../README.md)** | **[繁體中文](README.zh-TW.md)** | **[简体中文](README.zh-CN.md)** | **[日本語](README.ja.md)**
 
 > **TL;DR** — 容器化的 Hokuyo LiDAR 驱动程序，基于 ROS 2 Humble。从 source 编译 `urg_node2`，内含 Ethernet 和 Serial 连接的默认参数文件。
