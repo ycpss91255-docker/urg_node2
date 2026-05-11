@@ -102,7 +102,7 @@ RUN ln -sf /opt/bats/bin/bats /usr/local/bin/bats
 ENV BATS_LIB_PATH="/usr/lib/bats"
 
 # Smoke test
-COPY .base/test/smoke/test_helper.bash template/test/smoke/script_help.bats /smoke_test/
+COPY .base/test/smoke/test_helper.bash .base/test/smoke/script_help.bats /smoke_test/
 COPY test/smoke/ /smoke_test/
 
 RUN bats /smoke_test/
