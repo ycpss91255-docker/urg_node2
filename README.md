@@ -146,11 +146,11 @@ See [TEST.md](doc/test/TEST.md) for details.
 urg_node_humble/
 ├── compose.yaml                 # Docker Compose definition
 ├── Dockerfile                   # Multi-stage build (builder + devel + test)
-├── build.sh -> template/script/docker/build.sh    # Symlink
-├── run.sh -> template/script/docker/run.sh        # Symlink
-├── exec.sh -> template/script/docker/exec.sh      # Symlink
-├── stop.sh -> template/script/docker/stop.sh      # Symlink
-├── Makefile -> template/script/docker/Makefile    # Symlink
+├── build.sh -> .base/script/docker/build.sh    # Symlink
+├── run.sh -> .base/script/docker/run.sh        # Symlink
+├── exec.sh -> .base/script/docker/exec.sh      # Symlink
+├── stop.sh -> .base/script/docker/stop.sh      # Symlink
+├── Makefile -> .base/script/docker/Makefile    # Symlink
 ├── .hadolint.yaml               # Custom Hadolint rules
 ├── script/
 │   └── entrypoint.sh            # Sources ROS 2 + workspace
@@ -158,7 +158,7 @@ urg_node_humble/
 │   ├── params_ether.yaml        # Ethernet connection
 │   ├── params_ether_2nd.yaml    # Second LiDAR (Ethernet)
 │   └── params_serial.yaml       # Serial connection
-├── template/                    # Shared template (git subtree)
+├── .base/                    # Shared template (git subtree)
 ├── doc/                         # Translated READMEs
 │   ├── README.zh-TW.md          # Traditional Chinese
 │   ├── README.zh-CN.md          # Simplified Chinese

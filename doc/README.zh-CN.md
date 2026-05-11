@@ -136,11 +136,11 @@ graph TD
 urg_node_humble/
 ├── compose.yaml                 # Docker Compose 定义
 ├── Dockerfile                   # 多阶段构建（builder + devel + test）
-├── build.sh -> template/build.sh    # Symlink
-├── run.sh -> template/run.sh        # Symlink
-├── exec.sh -> template/exec.sh      # Symlink
-├── stop.sh -> template/stop.sh      # Symlink
-├── Makefile -> template/Makefile    # Symlink
+├── build.sh -> .base/build.sh    # Symlink
+├── run.sh -> .base/run.sh        # Symlink
+├── exec.sh -> .base/exec.sh      # Symlink
+├── stop.sh -> .base/stop.sh      # Symlink
+├── Makefile -> .base/Makefile    # Symlink
 ├── .template_version            # Template subtree 版本（v0.4.1）
 ├── .hadolint.yaml               # 自定义 Hadolint 规则
 ├── script/
@@ -149,7 +149,7 @@ urg_node_humble/
 │   ├── params_ether.yaml        # Ethernet 连接
 │   ├── params_ether_2nd.yaml    # 第二颗 LiDAR（Ethernet）
 │   └── params_serial.yaml       # Serial 连接
-├── template/                    # 共用模板（git subtree）
+├── .base/                    # 共用模板（git subtree）
 ├── doc/                         # 翻译版 README
 │   ├── README.zh-TW.md          # 繁体中文
 │   ├── README.zh-CN.md          # 简体中文
